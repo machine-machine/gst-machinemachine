@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Machine.Machine × Grünstifter — KI für Artenschutzgutachten</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #0F1729;
+    --navy-light: #1A2340;
+    --navy-lighter: #243055;
+    --purple: #7C3AED;
+    --purple-light: #9F67FF;
+    --cyan: #00D9FF;
+    --cyan-dim: rgba(0, 217, 255, 0.15);
+    --purple-dim: rgba(124, 58, 237, 0.15);
+    --text: #E2E8F0;
+    --text-muted: #94A3B8;
+    --text-bright: #F8FAFC;
+    --card-bg: rgba(26, 35, 64, 0.7);
+    --card-border: rgba(124, 58, 237, 0.2);
+    --gradient-accent: linear-gradient(180deg, var(--purple), var(--cyan));
+    --gradient-btn: linear-gradient(135deg, var(--purple), #9F67FF);
+  }
+
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── SLIDE SYSTEM ─── */
+  .slide {
+    min-height: 100vh;
+    min-height: 100dvh;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide-inner {
+    max-width: 960px;
+    width: 100%;
+  }
+
+  /* Slide number */
+  .slide-num {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 2rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--text-bright);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 4vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--text-bright);
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: var(--text-muted);
+    max-width: 600px;
+    line-height: 1.5;
+  }
+
+  .highlight {
+    color: var(--cyan);
+  }
+
+  .highlight-purple {
+    color: var(--purple-light);
+  }
+
+  /* ─── LABEL CHIPS ─── */
+  .label {
+    display: inline-block;
+    padding: 0.3rem 0.85rem;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+
+  .label--purple {
+    background: var(--purple-dim);
+    color: var(--purple-light);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+  }
+
+  .label--cyan {
+    background: var(--cyan-dim);
+    color: var(--cyan);
+    border: 1px solid rgba(0, 217, 255, 0.25);
+  }
+
+  /* ─── CARDS ─── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border-left: 4px solid transparent;
+    border-image: var(--gradient-accent) 1;
+    border-image-slice: 1;
+    border-top: 1px solid var(--card-border);
+    border-right: 1px solid var(--card-border);
+    border-bottom: 1px solid var(--card-border);
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+  }
+
+  .card-icon {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  /* ─── STAT GRID ─── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+  }
+
+  .stat {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+  }
+
+  .stat-number {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--cyan), var(--purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    font-weight: 500;
+  }
+
+  /* ─── COMPARISON TABLE ─── */
+  .comparison {
+    width: 100%;
+    margin-top: 1.75rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+  }
+
+  .comparison th {
+    padding: 1rem 1.25rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: left;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .comparison th:first-child {
+    color: var(--text-muted);
+    background: var(--navy-light);
+  }
+
+  .comparison th:nth-child(2) {
+    color: var(--text-muted);
+    background: var(--navy-light);
+  }
+
+  .comparison th:nth-child(3) {
+    color: var(--cyan);
+    background: rgba(0, 217, 255, 0.06);
+  }
+
+  .comparison td {
+    padding: 0.85rem 1.25rem;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+  }
+
+  .comparison td:nth-child(3) {
+    color: var(--cyan);
+    font-weight: 600;
+    background: rgba(0, 217, 255, 0.03);
+  }
+
+  .comparison tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* ─── WORKFLOW STEPS ─── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: var(--gradient-btn);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: white;
+  }
+
+  .step-content h3 {
+    margin-bottom: 0.25rem;
+  }
+
+  .step-content p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  /* ─── FEATURE LIST ─── */
+  .feature-list {
+    list-style: none;
+    margin-top: 1.25rem;
+  }
+
+  .feature-list li {
+    padding: 0.65rem 0;
+    border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .feature-list li:last-child {
+    border-bottom: none;
+  }
+
+  .feature-list .icon {
+    flex-shrink: 0;
+    color: var(--cyan);
+    font-size: 1.1rem;
+    margin-top: 0.1rem;
+  }
+
+  /* ─── CTA BUTTON ─── */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 2rem;
+    background: var(--gradient-btn);
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+  }
+
+  .cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(124, 58, 237, 0.55);
+  }
+
+  .cta-secondary {
+    background: transparent;
+    border: 2px solid var(--purple);
+    box-shadow: none;
+    margin-left: 0.75rem;
+  }
+
+  .cta-secondary:hover {
+    background: var(--purple-dim);
+    box-shadow: none;
+  }
+
+  /* ─── HERO ─── */
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 100px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .hero-badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cyan);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    max-width: 700px;
+  }
+
+  .hero h1 .gradient-text {
+    background: linear-gradient(135deg, var(--cyan), var(--purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ─── USE CASE CARDS ─── */
+  .usecase {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .usecase-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--purple-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .usecase h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  .usecase p {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .usecase-arrow {
+    color: var(--cyan);
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin: 0.5rem 0;
+    display: block;
+  }
+
+  /* ─── SHIELD / TRUST GRID ─── */
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+  }
+
+  .trust-item .icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .trust-item p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+
+  /* ─── BACKGROUND DECORATION ─── */
+  .bg-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bg-glow--purple {
+    background: rgba(124, 58, 237, 0.12);
+    width: 500px;
+    height: 500px;
+  }
+
+  .bg-glow--cyan {
+    background: rgba(0, 217, 255, 0.08);
+    width: 400px;
+    height: 400px;
+  }
+
+  /* ─── NAV DOTS ─── */
+  .nav-dots {
+    position: fixed;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 100;
+  }
+
+  .nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--navy-lighter);
+    border: 1px solid var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+  }
+
+  .nav-dot.active {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    box-shadow: 0 0 8px rgba(0, 217, 255, 0.5);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .slide { padding: 2rem 1.25rem; }
+    .card-grid { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .comparison { font-size: 0.8rem; }
+    .comparison th, .comparison td { padding: 0.65rem 0.75rem; }
+    .nav-dots { display: none; }
+    .slide-num { display: none; }
+    .trust-grid { grid-template-columns: 1fr; }
+    .cta-secondary { margin-left: 0; margin-top: 0.5rem; }
+    .cta-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ NAV DOTS ═══════ -->
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- ═══════ SLIDE 01 — HERO ═══════ -->
+<section class="slide hero" id="slide-1">
+  <div class="bg-glow bg-glow--purple" style="top:-20%;right:-10%"></div>
+  <div class="bg-glow bg-glow--cyan" style="bottom:-15%;left:-5%"></div>
+  <div class="slide-inner">
+    <div class="hero-badge"><span class="dot"></span> Machine.Machine × Grünstifter</div>
+    <h1>KI für euer Team.<br><span class="gradient-text">Mehr Gutachten.<br>Weniger Papierkram.</span></h1>
+    <p class="subtitle">Wie ein KI-Team eure Artenschutzgutachten schneller, genauer und stressfreier macht — damit ihr mehr Zeit draußen verbringt statt am Schreibtisch.</p>
+    <a href="#slide-2" class="cta">Zeig mir wie ↓</a>
+  </div>
+  <span class="slide-num">01 / 11</span>
+</section>
+
+<!-- ═══════ SLIDE 02 — DAS PROBLEM ═══════ -->
+<section class="slide" id="slide-2">
+  <div class="bg-glow bg-glow--purple" style="top:10%;left:-15%"></div>
+  <div class="slide-inner">
+    <span class="label label--purple">Das Problem</span>
+    <h2>Die Kartierung ist der schöne Teil.<br>Der Bericht frisst eure Zeit.</h2>
+    <p class="subtitle" style="margin-bottom:1.5rem">Ihr kennt das: Zwei Tage Feldarbeit, dann zwei Wochen am Schreibtisch. Jedes Gutachten hat 60–80% identische Struktur — aber trotzdem tippt ihr alles neu.</p>
+
+    <table class="comparison">
+      <thead>
+        <tr>
+          <th>Aufgabe</th>
+          <th>Heute</th>
+          <th>Das eigentliche Problem</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Gutachten-Text schreiben</td>
+          <td>3–5 Tage</td>
+          <td>60–80% ist Wiederholung</td>
+        </tr>
+        <tr>
+          <td>Artenlisten abgleichen</td>
+          <td>Manuell pro Bundesland</td>
+          <td>Listen ändern sich ständig</td>
+        </tr>
+        <tr>
+          <td>Gesetze & Richtlinien prüfen</td>
+          <td>BNatSchG, FFH, saP einzeln</td>
+          <td>Fehler = Baustopp</td>
+        </tr>
+        <tr>
+          <td>Behörden-Formulierungen</td>
+          <td>Copy-Paste aus alten Projekten</td>
+          <td>Jede Behörde will was anderes</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <span class="slide-num">02 / 11</span>
+</section>
+
+<!-- ═══════ SLIDE 03 — WAS WENN ═══════ -->
+<section class="slide" id="slide-3">
+  <div class="bg-glow bg-glow--cyan" style="top:20%;right:-10%"></div>
+  <div class="slide-inner" style="text-align:center;">
+    <span class="label label--cyan">Die Idee</span>
+    <h2 style="max-width:700px;margin:0 auto;">Was wäre, wenn ein <span class="highlight">KI-Team</span> euren nächsten Bericht in der <span class="highlight">Hälfte der Zeit</span> schreiben würde?</h2>
+    <p class="subtitle" style="margin:1.25rem auto 0;max-width:550px;text-align:center;">Nicht ein einzelnes ChatGPT-Fenster. Sondern mehrere spezialisierte KI-Agenten, die zusammenarbeiten — wie ein eingespieltes Büro-Team, das nie krank wird und jede Verordnung kennt.</p>
+  </div>
+  <span class="slide-num">03 / 11</span>
+</section>
+
+<!-- ═══════ SLIDE 04 — SO FUNKTIONIERT'S ═══════ -->
+<section class="slide" id="slide-4">
+  <div class="bg-glow bg-glow--purple" style="bottom:-10%;right:-5%"></div>
+  <div class="slide-inner">
+    <span class="label label--purple">Die Lösung</span>
+    <h2>Ein KI-Team, das eure Sprache spricht</h2>
+    <p class="subtitle" style="margin-bottom:0.5rem">Machine.Machine organisiert KI-Agenten als Team — jeder mit einer klaren Rolle:</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">🔍</span>
+        <h3>Scout</h3>
+        <p>Nimmt eure Felddaten entgegen — Kartierungsergebnisse, Fotos, GPS-Punkte — und bereitet alles strukturiert auf.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">✍️</span>
+        <h3>Writer</h3>
+        <p>Schreibt den Gutachten-Entwurf: Bestandsbeschreibung, Wirkprognose, Konfliktanalyse — in eurem Stil und Aufbau.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚖️</span>
+        <h3>Checker</h3>
+        <p>Prüft gegen BNatSchG §&nbsp;44, FFH-Richtlinie, saP-Anforderungen und länderspezifische Vorgaben. Findet Lücken bevor die Behörde es tut.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎯</span>
+        <h3>Coordinator</h3>
+        <p>Orchestriert das Team, merkt sich Behörden-Präferenzen und lernt mit jedem Projekt dazu.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-num">04 / 11</span>
+</section>
+
+<!-- ═══════ SLIDE 05 — ZEITERSPARNIS ═══════ -->
+<section class="slide" id="slide-5">
+  <div class="bg-glow bg-glow--cyan" style="top:-10%;left:-10%"></div>
+  <div class="slide-inner">
+    <span class="label label--cyan">Eure Zeitersparnis</span>
+    <h2>Zahlen, die zählen</h2>
+    <p class="subtitle" style="margin-bottom:0.5rem">Konservative Schätzung basierend auf eurem Workflow:</p>
+
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-number">70%</div>
+        <div class="stat-label">schnellere Gutachten-Erstellung</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">~0</div>
+        <div class="stat-label">Minuten für Literaturrecherche</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">aktuelle Behörden-Checklisten</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">2×</div>
+        <div class="stat-label">mehr Projekte pro Quartal möglich</div>
+      </div>
+    </div>
+
+    <table class="comparison" style="margin-top:1.5rem">
+      <thead>
+        <tr>
+          <th>Schritt</th>
+          <th>Heute</th>
+          <th>Mit KI-Team</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Gutachten-Rohtext</td>
+          <td>3–5 Tage</td>
+          <td>4–8 Stunden</td>
+        </tr>
+        <tr>
+          <td>Artenlisten & Rote Listen</td>
+          <td>Halber Tag Recherche</td>
+          <td>Sofort verfügbar</td>
+        </tr>
+        <tr>
+          <td>Gesetzesabgleich</td>
+          <td>1–2 Stunden manuell</td>
+          <td>Automatisch geprüft</td>
+        </tr>
+        <tr>
+          <td>Behörden-Formatierung</td>
+          <td>Copy-Paste + Anpassen</td>
+          <td>Pro Behörde gelernt</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <span class="slide-num">05 / 11</span>
+</section>
+
+<!-- ═══════ SLIDE 06 — USE CASES ═══════ -->
+<section class="slide" id="slide-6">
+  <div class="bg-glow bg-glow--purple" style="top:30%;right:-15%"></div>
+  <div class="slide-inner">
+    <span class="label label--purple">Konkrete Beispiele</span>
+    <h2>Drei Szenarien aus eurem Alltag</h2>
+
+    <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+      <div class="usecase">
+        <div class="usecase-tag">Use Case 1 — saP</div>
+        <h3>saP-Bericht aus Felddaten</h3>
+        <p>Ihr kommt von der Kartierung zurück, ladet Artenlisten und Fotos hoch.</p>
+        <span class="usecase-arrow">→ KI erstellt vollständigen saP-Entwurf</span>
+        <p>Bestandserfassung, Wirkprognose, Vermeidungsmaßnahmen — alles drin. Ihr reviewt, passt an, fertig.</p>
+      </div>
+      <div class="usecase">
+        <div class="usecase-tag">Use Case 2 — Windkraft</div>
+        <h3>Artengruppen-Checkliste</h3>
+        <p>Neues Windkraft-Projekt in Bayern? Die KI kennt die relevanten Artengruppen pro Bundesland.</p>
+        <span class="usecase-arrow">→ Automatische Prüfliste nach Länder-Erlass</span>
+        <p>Fledermäuse, Vögel (Rotmilan, Schwarzstorch), Abstandsempfehlungen — sofort auf dem aktuellen Stand.</p>
+      </div>
+      <div class="usecase">
+        <div class="usecase-tag">Use Case 3 — Kompensation</div>
+        <h3>CEF- & FCS-Maßnahmen</h3>
+        <p>Eingriff definiert? Die KI schlägt passende Ausgleichs- und Ersatzmaßnahmen vor.</p>
+        <span class="usecase-arrow">→ Maßnahmen-Katalog basierend auf Eingriff + Art</span>
+        <p>CEF für Zauneidechse, FCS für Feldhamster — mit Referenzen aus erfolgreichen Genehmigungen.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-num">06 / 11</span>
+</section>
+
+<!-- ═══════ SLIDE 07 — WORKFLOW ═══════ -->
+<section class="slide" id="slide-7">
+  <div class="bg-glow bg-glow--cyan" style="bottom:10%;left:-10%"></div>
+  <div class="slide-inner">
+    <span class="label label--cyan">Euer neuer Workflow</span>
+    <h2>So einfach läuft das</h2>
+    <p class="subtitle">Ihr bleibt Experten. Die KI übernimmt den Schreibkram.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Ihr macht die Kartierung</h3>
+          <p>Feldarbeit wie immer — Artenlisten, Fotos, Habitatstrukturen, GPS-Daten. Das bleibt bei euch.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Daten rein, KI schreibt</h3>
+          <p>Kartierungsergebnisse hochladen. Das KI-Team erstellt den Gutachten-Entwurf — in eurem Format, mit eurer Struktur.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Ihr reviewt und korrigiert</h3>
+          <p>Fachliche Prüfung bleibt bei euch. Anpassungen, Ergänzungen, finale Bewertung — euer Name steht drauf.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Fertig. Nächstes Projekt.</h3>
+          <p>Was vorher eine Woche dauerte, ist in 1–2 Tagen erledigt. Die KI lernt aus jedem Review für nächstes Mal.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="slide-num">07 / 11</span>
+</section>
+
+<!-- ═══════ SLIDE 08 — ES LERNT MIT ═══════ -->
+<section class="slide" id="slide-8">
+  <div class="bg-glow bg-glow--purple" style="top:-5%;right:10%"></div>
+  <div class="slide-inner">
+    <span class="label label--purple">Lernendes System</span>
+    <h2>Je mehr Gutachten, desto besser</h2>
+    <p class="subtitle" style="margin-bottom:1.5rem">Das ist kein statisches Tool. Das KI-Team hat ein Gedächtnis — es lernt aus jedem Projekt, das ihr macht.</p>
+
+    <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+      <div class="card">
+        <span class="card-icon">🧠</span>
+        <h3>Euer Stil wird gelernt</h3>
+        <p>Formulierungen, Textbausteine, Gutachten-Aufbau — die KI übernimmt euren Schreibstil nach wenigen Projekten.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🏛️</span>
+        <h3>Behörden-Wissen wächst</h3>
+        <p>Welche UNB welche Formulierungen bevorzugt, welche Nachfragen typisch sind — das merkt sich das System.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🦎</span>
+        <h3>Artenwissen vertieft sich</h3>
+        <p>Regionale Besonderheiten, saisonale Muster, lokale Populationen — mit jedem Gutachten wird der Kontext reicher.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-num">08 / 11</span>
+</section>
+
+<!-- ═══════ SLIDE 09 — DATENSCHUTZ ═══════ -->
+<section class="slide" id="slide-9">
+  <div class="bg-glow bg-glow--cyan" style="bottom:0;left:20%"></div>
+  <div class="slide-inner">
+    <span class="label label--cyan">Datenschutz & Kontrolle</span>
+    <h2>Eure Daten bleiben bei euch</h2>
+    <p class="subtitle" style="margin-bottom:0.5rem">Kein Cloud-Abo, keine fremden Server. Alles läuft auf eurer Infrastruktur.</p>
+
+    <div class="trust-grid">
+      <div class="trust-item">
+        <span class="icon">🔒</span>
+        <div>
+          <h3>Self-Hosted</h3>
+          <p>Das System läuft auf eurem Server oder bei einem deutschen Hoster. Keine Daten gehen an OpenAI, Google oder sonst wen.</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <span class="icon">👁️</span>
+        <div>
+          <h3>Volle Transparenz</h3>
+          <p>Ihr seht jeden Schritt, den die KI macht. Kein Black-Box-Ergebnis — ihr versteht, warum was geschrieben wurde.</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <span class="icon">✅</span>
+        <div>
+          <h3>Ihr genehmigt alles</h3>
+          <p>Nichts verlässt das System ohne euer OK. Kein automatisches Versenden, keine überraschenden Aktionen.</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <span class="icon">🇩🇪</span>
+        <div>
+          <h3>DSGVO-konform</h3>
+          <p>Deutsche Server, keine Datenübertragung ins Ausland, volle Kontrolle über Löschung und Aufbewahrung.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="slide-num">09 / 11</span>
+</section>
+
+<!-- ═══════ SLIDE 10 — WAS MARIO SCHON GEBAUT HAT ═══════ -->
+<section class="slide" id="slide-10">
+  <div class="bg-glow bg-glow--purple" style="top:20%;left:-10%"></div>
+  <div class="slide-inner">
+    <span class="label label--purple">Track Record</span>
+    <h2>Das ist nicht mein erstes Rodeo</h2>
+    <p class="subtitle" style="margin-bottom:1.5rem">Ihr kennt mich — ich hab schon ein paar Sachen für euch automatisiert. Das hier ist die nächste Stufe.</p>
+
+    <ul class="feature-list">
+      <li>
+        <span class="icon">⚡</span>
+        <div><strong>Machine.Machine</strong> — Meine KI-Plattform, die ich seit 2024 baue. Mehrere Agenten, die zusammenarbeiten, sich Aufgaben teilen und voneinander lernen. Produktiv im Einsatz.</div>
+      </li>
+      <li>
+        <span class="icon">⚡</span>
+        <div><strong>Semantisches Gedächtnis</strong> — Mein KI-System hat über 3.000 vernetzte Erinnerungen. Kein Copy-Paste-Tool, sondern echtes Kontextverständnis über Projekte hinweg.</div>
+      </li>
+      <li>
+        <span class="icon">⚡</span>
+        <div><strong>Self-Hosted Infrastruktur</strong> — Alles läuft auf eigenen Servern. Voice-Cloning, Spracherkennung, Vektordatenbanken — komplett selbst gehostet. Das kann ich auch für euch aufsetzen.</div>
+      </li>
+      <li>
+        <span class="icon">⚡</span>
+        <div><strong>Eure Automatisierungen</strong> — Wir haben schon zusammen Prozesse vereinfacht. Jetzt machen wir den großen Sprung: von einzelnen Skripten zu einem KI-Team, das euer Kerngeschäft beschleunigt.</div>
+      </li>
+    </ul>
+  </div>
+  <span class="slide-num">10 / 11</span>
+</section>
+
+<!-- ═══════ SLIDE 11 — CTA ═══════ -->
+<section class="slide" id="slide-11">
+  <div class="bg-glow bg-glow--purple" style="top:-10%;right:-5%"></div>
+  <div class="bg-glow bg-glow--cyan" style="bottom:-10%;left:10%"></div>
+  <div class="slide-inner" style="text-align:center;">
+    <span class="label label--cyan">Nächster Schritt</span>
+    <h2 style="max-width:650px;margin:0 auto;">Lass uns ein echtes Gutachten zusammen durchgehen</h2>
+    <p class="subtitle" style="margin:1rem auto 0;text-align:center;max-width:520px;">Schickt mir euer nächstes Projekt. Ich zeig euch live, wie das KI-Team den Bericht erstellt — mit euren echten Daten.</p>
+    <div class="cta-wrap" style="margin-top:1.75rem;">
+      <a href="mailto:mario@machinemachine.ai?subject=Grünstifter%20×%20KI%20—%20Lass%20uns%20reden" class="cta">Termin machen →</a>
+      <a href="https://machinemachine.ai" class="cta cta-secondary" target="_blank">machinemachine.ai ↗</a>
+    </div>
+    <p style="margin-top:2.5rem;font-size:0.8rem;color:var(--text-muted);">Kein Abo. Kein Vertrag. Einfach ausprobieren.</p>
+  </div>
+  <span class="slide-num">11 / 11</span>
+</section>
+
+<!-- ═══════ SCRIPT ═══════ -->
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const navDots = document.getElementById('navDots');
+
+  // Create navigation dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+    dot.addEventListener('click', () => {
+      slides[i].scrollIntoView({ behavior: 'smooth' });
+    });
+    navDots.appendChild(dot);
+  });
+
+  // Update active dot on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const index = Array.from(slides).indexOf(entry.target);
+        document.querySelectorAll('.nav-dot').forEach((d, i) => {
+          d.classList.toggle('active', i === index);
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+
+  slides.forEach(slide => observer.observe(slide));
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    const dots = document.querySelectorAll('.nav-dot');
+    const current = Array.from(dots).findIndex(d => d.classList.contains('active'));
+    if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault();
+      if (current < slides.length - 1) slides[current + 1].scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      e.preventDefault();
+      if (current > 0) slides[current - 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+})();
+</script>
+</body>
+</html>
