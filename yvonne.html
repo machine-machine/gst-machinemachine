@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yvonne — Dein Wissen. Die KI-Basis. | Machine.Machine × Grünstifter</title>
+<title>Yvonne & Udo — Die GST-Maschine | Machine.Machine × Grünstifter</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -14,6 +14,7 @@
     --navy: #0F1729;
     --navy-light: #1A2340;
     --navy-lighter: #243055;
+    --navy-dark: #0d1f3c;
     --purple: #7C3AED;
     --purple-light: #9F67FF;
     --cyan: #00D9FF;
@@ -42,7 +43,7 @@
     overflow-x: hidden;
   }
 
-  /* ─── SLIDE SYSTEM ─── */
+  /* --- SLIDE SYSTEM --- */
   .slide {
     min-height: 100vh;
     min-height: 100dvh;
@@ -70,7 +71,7 @@
     letter-spacing: 0.1em;
   }
 
-  /* ─── TYPOGRAPHY ─── */
+  /* --- TYPOGRAPHY --- */
   h1 {
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 900;
@@ -109,7 +110,7 @@
     color: var(--purple-light);
   }
 
-  /* ─── LABEL CHIPS ─── */
+  /* --- LABEL CHIPS --- */
   .label {
     display: inline-block;
     padding: 0.3rem 0.85rem;
@@ -133,7 +134,7 @@
     border: 1px solid rgba(0, 217, 255, 0.25);
   }
 
-  /* ─── CARDS ─── */
+  /* --- CARDS --- */
   .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -172,7 +173,7 @@
     line-height: 1.5;
   }
 
-  /* ─── WORKFLOW STEPS ─── */
+  /* --- WORKFLOW STEPS --- */
   .steps {
     display: flex;
     flex-direction: column;
@@ -189,20 +190,6 @@
     border-radius: 12px;
     padding: 1.25rem 1.5rem;
     backdrop-filter: blur(10px);
-  }
-
-  .step-num {
-    flex-shrink: 0;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 50%;
-    background: var(--gradient-btn);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 0.9rem;
-    color: white;
   }
 
   .step-icon {
@@ -226,33 +213,7 @@
     font-size: 0.9rem;
   }
 
-  /* ─── FEATURE LIST ─── */
-  .feature-list {
-    list-style: none;
-    margin-top: 1.25rem;
-  }
-
-  .feature-list li {
-    padding: 0.65rem 0;
-    border-bottom: 1px solid rgba(124, 58, 237, 0.1);
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    font-size: 0.95rem;
-  }
-
-  .feature-list li:last-child {
-    border-bottom: none;
-  }
-
-  .feature-list .icon {
-    flex-shrink: 0;
-    color: var(--cyan);
-    font-size: 1.1rem;
-    margin-top: 0.1rem;
-  }
-
-  /* ─── CHECKLIST ─── */
+  /* --- CHECKLIST --- */
   .checklist-group {
     margin-bottom: 1.75rem;
   }
@@ -287,23 +248,151 @@
     backdrop-filter: blur(10px);
   }
 
-  .checkbox {
+  .checklist .check-icon {
     flex-shrink: 0;
-    width: 1.2rem;
-    height: 1.2rem;
-    border: 2px solid var(--purple);
-    border-radius: 4px;
-    margin-top: 0.1rem;
-    background: transparent;
+    font-size: 1rem;
+    margin-top: 0.05rem;
+  }
+
+  /* --- COMPARISON COLUMNS --- */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.75rem;
+  }
+
+  .comparison-col {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .comparison-col h3 {
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .comparison-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .comparison-col ul li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    padding-left: 0.25rem;
+    line-height: 1.4;
+  }
+
+  /* --- STAT GRID --- */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+  }
+
+  .stat-block {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+  }
+
+  .stat-block .stat-number {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--cyan), var(--purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-block .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.35;
+  }
+
+  .bottom-stat {
+    margin-top: 1.75rem;
+    text-align: center;
+    padding: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    backdrop-filter: blur(10px);
+  }
+
+  .bottom-stat .highlight {
+    font-weight: 800;
+  }
+
+  /* --- WORKFLOW FLOW (horizontal steps) --- */
+  .workflow-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.75rem;
+    align-items: stretch;
+  }
+
+  .flow-step {
+    flex: 1;
+    min-width: 140px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
     position: relative;
   }
 
-  .checkbox--optional {
-    border-color: var(--text-muted);
-    border-style: dashed;
+  .flow-step:not(:last-child)::after {
+    content: '\2192';
+    position: absolute;
+    right: -0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--purple-light);
+    font-size: 1.1rem;
+    font-weight: 700;
+    z-index: 1;
   }
 
-  /* ─── REASSURANCE LIST ─── */
+  .flow-step .flow-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .flow-step h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .flow-step p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  /* --- REASSURANCE LIST --- */
   .reassurance-list {
     list-style: none;
     margin-top: 1.5rem;
@@ -338,7 +427,71 @@
     border-top: 1px solid rgba(0, 217, 255, 0.15);
   }
 
-  /* ─── CTA BUTTON ─── */
+  /* --- NAME TAGS --- */
+  .name-tags {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .name-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.15rem;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+  }
+
+  .name-tag--yvonne {
+    background: var(--purple-dim);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    color: var(--purple-light);
+  }
+
+  .name-tag--udo {
+    background: var(--cyan-dim);
+    border: 1px solid rgba(0, 217, 255, 0.25);
+    color: var(--cyan);
+  }
+
+  /* --- DIVIDER SLIDE --- */
+  .slide--divider {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+    text-align: center;
+  }
+
+  .slide--divider h2 {
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    margin-bottom: 1rem;
+  }
+
+  .slide--divider .divider-sub {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: var(--text-muted);
+    max-width: 450px;
+    margin: 0 auto;
+  }
+
+  /* --- DURATION TAG --- */
+  .duration {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.7rem;
+    background: var(--cyan-dim);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--cyan);
+    margin-top: 1rem;
+  }
+
+  /* --- CTA BUTTON --- */
   .cta {
     display: inline-flex;
     align-items: center;
@@ -374,7 +527,7 @@
     box-shadow: none;
   }
 
-  /* ─── HERO ─── */
+  /* --- HERO --- */
   .hero-badge {
     display: inline-flex;
     align-items: center;
@@ -414,7 +567,7 @@
     background-clip: text;
   }
 
-  /* ─── BACK LINK ─── */
+  /* --- BACK LINK --- */
   .back-link {
     position: fixed;
     top: 1.25rem;
@@ -440,22 +593,7 @@
     border-color: rgba(0, 217, 255, 0.3);
   }
 
-  /* ─── DURATION TAG ─── */
-  .duration {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.3rem 0.7rem;
-    background: var(--cyan-dim);
-    border: 1px solid rgba(0, 217, 255, 0.2);
-    border-radius: 100px;
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--cyan);
-    margin-top: 1rem;
-  }
-
-  /* ─── BACKGROUND DECORATION ─── */
+  /* --- BACKGROUND DECORATION --- */
   .bg-glow {
     position: absolute;
     border-radius: 50%;
@@ -476,7 +614,7 @@
     height: 400px;
   }
 
-  /* ─── NAV DOTS ─── */
+  /* --- NAV DOTS --- */
   .nav-dots {
     position: fixed;
     right: 1.25rem;
@@ -505,7 +643,7 @@
     box-shadow: 0 0 8px rgba(0, 217, 255, 0.5);
   }
 
-  /* ─── RESPONSIVE ─── */
+  /* --- RESPONSIVE --- */
   @media (max-width: 640px) {
     .slide { padding: 2rem 1.25rem; }
     .card-grid { grid-template-columns: 1fr; }
@@ -515,314 +653,411 @@
     .cta-wrap { display: flex; flex-direction: column; align-items: flex-start; }
     .back-link { top: 0.75rem; left: 0.75rem; }
     .checklist li { padding: 0.75rem 0.85rem; font-size: 0.85rem; }
+    .comparison { grid-template-columns: 1fr; }
+    .workflow-flow { flex-direction: column; }
+    .flow-step:not(:last-child)::after { content: '\2193'; right: 50%; top: auto; bottom: -0.75rem; transform: translateX(50%); }
+    .workflow-flow { gap: 1rem; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .name-tags { flex-direction: column; gap: 0.5rem; }
   }
 </style>
 </head>
 <body>
 
-<!-- ═══════ BACK LINK ═══════ -->
-<a href="index.html" class="back-link">← Zurück zur Übersicht</a>
+<!-- BACK LINK -->
+<a href="index.html" class="back-link">&larr; Zur&uuml;ck zur &Uuml;bersicht</a>
 
-<!-- ═══════ NAV DOTS ═══════ -->
+<!-- NAV DOTS -->
 <nav class="nav-dots" id="navDots"></nav>
 
-<!-- ═══════ SLIDE 01 — HERO ═══════ -->
+<!-- SLIDE 01 — HERO (addresses both) -->
 <section class="slide hero" id="slide-1">
   <div class="bg-glow bg-glow--purple" style="top:-20%;right:-10%"></div>
   <div class="bg-glow bg-glow--cyan" style="bottom:-15%;left:-5%"></div>
   <div class="slide-inner">
-    <div class="hero-badge"><span class="dot"></span> Deine Reise</div>
-    <h1>Dein Wissen.<br><span class="gradient-text">Die KI-Basis.</span></h1>
-    <p class="subtitle">Yvonne — du bist der Schlüssel, damit das hier funktioniert. Nicht die Technik, nicht die Algorithmen. Dein Kopf, deine Erfahrung, dein Gespür für Qualität.</p>
-    <a href="#slide-2" class="cta">Was das bedeutet ↓</a>
+    <span class="label label--purple">F&uuml;r euer Team</span>
+    <h1>Die GST-Maschine<br><span class="gradient-text">ist f&uuml;r euch.</span></h1>
+    <p class="subtitle">F&uuml;r Yvonne, die sie mitbaut. Und f&uuml;r Udo, der sie t&auml;glich nutzt.</p>
+    <div class="name-tags">
+      <span class="name-tag name-tag--yvonne">&#x1F469;&#x200D;&#x1F52C; Yvonne &mdash; Co-Kreatorin</span>
+      <span class="name-tag name-tag--udo">&#x2699;&#xFE0F; Udo &mdash; Daily Operations</span>
+    </div>
   </div>
-  <span class="slide-num">01 / 09</span>
+  <span class="slide-num">01 / 13</span>
 </section>
 
-<!-- ═══════ SLIDE 02 — WARUM DU? ═══════ -->
+<!-- SLIDE 02 — F&uuml;r Yvonne: Warum dein Wissen z&auml;hlt -->
 <section class="slide" id="slide-2">
   <div class="bg-glow bg-glow--purple" style="top:10%;left:-15%"></div>
   <div class="slide-inner">
-    <span class="label label--purple">Warum du?</span>
-    <h2>Dein Wissen kann man nicht googlen</h2>
-    <p class="subtitle" style="margin-bottom:0.5rem">20+ Jahre Artenschutz-Expertise, Behördenbeziehungen, das Gefühl dafür was ein gutes Gutachten von einem abgelehnten unterscheidet — das macht diese KI anders als generische Tools.</p>
-
+    <span class="label label--purple">F&uuml;r Yvonne</span>
+    <h2>Yvonne &mdash; du bist der Schl&uuml;ssel</h2>
     <div class="card-grid">
       <div class="card">
-        <span class="card-icon">🧭</span>
+        <span class="card-icon">&#x1F9ED;</span>
         <h3>Dein Prozesswissen</h3>
-        <p>Wie ein Gutachten wirklich entsteht — nicht wie es im Lehrbuch steht. Die Abkürzungen, die Reihenfolge, die Kniffe.</p>
+        <p>Wie ein Gutachten wirklich entsteht &mdash; nicht wie es im Lehrbuch steht. Die Abk&uuml;rzungen, die Reihenfolge, die Kniffe.</p>
       </div>
       <div class="card">
-        <span class="card-icon">✍️</span>
+        <span class="card-icon">&#x270D;&#xFE0F;</span>
         <h3>Deine Formulierungen</h3>
-        <p>Die Sätze die bei der UNB durchgehen, die Textbausteine die funktionieren, der Ton der akzeptiert wird.</p>
+        <p>Die S&auml;tze die bei der UNB durchgehen, die Textbausteine die funktionieren, der Ton der akzeptiert wird.</p>
       </div>
       <div class="card">
-        <span class="card-icon">⚖️</span>
-        <h3>Deine Qualitätsstandards</h3>
-        <p>Wann ist ein Gutachten gut genug? Das weiß nur jemand, der hunderte davon geschrieben und durchgebracht hat.</p>
+        <span class="card-icon">&#x2696;&#xFE0F;</span>
+        <h3>Deine Qualit&auml;tsstandards</h3>
+        <p>Wann ist ein Gutachten gut genug? Das wei&szlig; nur jemand, der hunderte davon geschrieben und durchgebracht hat.</p>
       </div>
     </div>
+    <p style="margin-top:1.75rem;color:var(--text-muted);font-size:0.95rem;">KI-Tools gibt es viele. <strong style="color:var(--text-bright);">Was dieses hier besonders macht: es kennt eure Arbeit.</strong></p>
   </div>
-  <span class="slide-num">02 / 09</span>
+  <span class="slide-num">02 / 13</span>
 </section>
 
-<!-- ═══════ SLIDE 03 — DIE REISE AUF EINEN BLICK ═══════ -->
+<!-- SLIDE 03 — F&uuml;r Yvonne: Die Co-Kreations-Reise -->
 <section class="slide" id="slide-3">
   <div class="bg-glow bg-glow--cyan" style="top:20%;right:-10%"></div>
   <div class="slide-inner">
-    <span class="label label--cyan">Überblick</span>
-    <h2>Die Reise auf einen Blick</h2>
-    <p class="subtitle">Fünf Phasen — und du gibst das Tempo vor.</p>
-
+    <span class="label label--cyan">Deine Reise</span>
+    <h2>So bauen wir das zusammen</h2>
     <div class="steps">
       <div class="step">
-        <div class="step-icon">🎙️</div>
+        <div class="step-icon">&#x1F399;&#xFE0F;</div>
         <div class="step-content">
-          <h3>1. Zuhören</h3>
-          <p>Wir hören zu: Calls, Aufzeichnungen, Dokumente. Du erzählst, wir lernen.</p>
+          <h3>1. Zuh&ouml;ren</h3>
+          <p>Calls, Aufzeichnungen, Dokumente &mdash; Mario hat schon Material von euch.</p>
         </div>
       </div>
       <div class="step">
-        <div class="step-icon">🗺️</div>
+        <div class="step-icon">&#x1F5FA;&#xFE0F;</div>
         <div class="step-content">
           <h3>2. Verstehen</h3>
-          <p>Wir kartieren deinen Workflow — wie eine saP, nur für Prozesse.</p>
+          <p>Workflow-Mapping &mdash; wir kartieren deinen Prozess, du zeichnest ab.</p>
         </div>
       </div>
       <div class="step">
-        <div class="step-icon">🧪</div>
+        <div class="step-icon">&#x1F9EA;</div>
         <div class="step-content">
-          <h3>3. Ausprobieren</h3>
-          <p>Erstes echtes Gutachten mit KI-Unterstützung. Kein Dummy — ein reales Projekt.</p>
+          <h3>3. Pilot</h3>
+          <p>Erstes echtes Gutachten mit KI-Unterst&uuml;tzung. Kein Dummy &mdash; ein reales Projekt.</p>
         </div>
       </div>
       <div class="step">
-        <div class="step-icon">🔄</div>
+        <div class="step-icon">&#x1F504;</div>
         <div class="step-content">
           <h3>4. Verfeinern</h3>
-          <p>Du reviewst, wir verbessern — mehrere Runden, bis die Qualität stimmt.</p>
+          <p>Du reviewst, wir verbessern &mdash; mehrere Runden, bis die Qualit&auml;t stimmt.</p>
         </div>
       </div>
       <div class="step">
-        <div class="step-icon">🚀</div>
+        <div class="step-icon">&#x1F680;</div>
         <div class="step-content">
-          <h3>5. Loslegen</h3>
-          <p>Das Team übernimmt, du bleibst Qualitätswächterin. Dein Stempel drauf.</p>
+          <h3>5. &Uuml;bergabe</h3>
+          <p>Udo &uuml;bernimmt den Alltag, du bleibst Qualit&auml;tsw&auml;chterin.</p>
         </div>
       </div>
     </div>
+    <div class="duration">&#x23F1; Dein Zeitaufwand: ~4&ndash;6 Stunden insgesamt</div>
   </div>
-  <span class="slide-num">03 / 09</span>
+  <span class="slide-num">03 / 13</span>
 </section>
 
-<!-- ═══════ SLIDE 04 — PHASE 1: ZUHÖREN ═══════ -->
+<!-- SLIDE 04 — F&uuml;r Yvonne: Checkliste -->
 <section class="slide" id="slide-4">
   <div class="bg-glow bg-glow--purple" style="bottom:-10%;right:-5%"></div>
   <div class="slide-inner">
-    <span class="label label--purple">Phase 1</span>
-    <h2>Zuhören — wir lernen von dir</h2>
-    <p class="subtitle" style="margin-bottom:0.5rem">Du musst nichts vorbereiten. Einfach erzählen und zeigen.</p>
+    <span class="label label--purple">Checkliste</span>
+    <h2>Was wir von dir brauchen</h2>
 
-    <ul class="feature-list">
-      <li>
-        <span class="icon">🎙️</span>
-        <div>Mario führt strukturierte Calls mit dir durch (1–2 Stunden, aufgezeichnet) — du erklärst, er fragt nach.</div>
-      </li>
-      <li>
-        <span class="icon">📄</span>
-        <div>Du zeigst ein echtes Gutachten und erklärst es Schritt für Schritt — warum steht was wo, was ist Pflicht, was ist Kür.</div>
-      </li>
-      <li>
-        <span class="icon">📋</span>
-        <div>Wir sammeln: Vorlagen, Checklisten, Behörden-Besonderheiten, Standardformulierungen, die sich bewährt haben.</div>
-      </li>
-      <li>
-        <span class="icon">📊</span>
-        <div>Monday-Board: Wir schauen gemeinsam wie Tasks fließen — wo sind Engpässe, was wiederholt sich.</div>
-      </li>
-    </ul>
+    <div class="checklist-group">
+      <div class="checklist-group-title">Dokumente &amp; Vorlagen</div>
+      <ul class="checklist">
+        <li><span class="check-icon">&#x2B1C;</span>3&ndash;5 fertige Artenschutzgutachten (Windkraft, Hochbau, PV)</li>
+        <li><span class="check-icon">&#x2B1C;</span>Aktuelle Vorlagen und Templates</li>
+        <li><span class="check-icon">&#x2B1C;</span>Artengruppen-Checklisten nach Projekttyp</li>
+        <li><span class="check-icon">&#x2B1C;</span>Standardformulierungen die immer wiederkehren</li>
+      </ul>
+    </div>
 
-    <div class="duration">⏱ 2–3 Wochen · Deine Zeit: ca. 4 Stunden insgesamt</div>
+    <div class="checklist-group">
+      <div class="checklist-group-title">Prozess &amp; Workflow</div>
+      <ul class="checklist">
+        <li><span class="check-icon">&#x2B1C;</span>Monday-Board &Uuml;bersicht (oder kurze Erkl&auml;rung)</li>
+        <li><span class="check-icon">&#x2B1C;</span>1&times; Call: &ldquo;Walk me through ein Gutachten von Anfang bis Ende&rdquo;</li>
+        <li><span class="check-icon">&#x2B1C;</span>Liste der Beh&ouml;rden + ihre Besonderheiten</li>
+      </ul>
+    </div>
+
+    <div class="checklist-group">
+      <div class="checklist-group-title">Fachliches</div>
+      <ul class="checklist">
+        <li><span class="check-icon">&#x2B1C;</span>Wichtigste Paragraphen/Leitf&auml;den (BNatSchG, FFH, saP)</li>
+        <li><span class="check-icon">&#x2B1C;</span>H&auml;ufigste Ablehnungsgr&uuml;nde &mdash; was muss extra sorgf&auml;ltig sein?</li>
+        <li><span class="check-icon">&#x2B1C;</span>Regionale Besonderheiten (Bundesland-spezifisch)</li>
+      </ul>
+    </div>
+
+    <div class="checklist-group">
+      <div class="checklist-group-title" style="color:var(--cyan);">Bereits vorhanden &#x2705;</div>
+      <ul class="checklist">
+        <li><span class="check-icon">&#x2705;</span>Aufzeichnungen &amp; Anforderungsdokumente (Mario hat schon Material)</li>
+        <li><span class="check-icon">&#x2705;</span>Links und Referenzdokumente</li>
+      </ul>
+    </div>
   </div>
-  <span class="slide-num">04 / 09</span>
+  <span class="slide-num">04 / 13</span>
 </section>
 
-<!-- ═══════ SLIDE 05 — PHASE 2: VERSTEHEN ═══════ -->
-<section class="slide" id="slide-5">
-  <div class="bg-glow bg-glow--cyan" style="top:-10%;left:-10%"></div>
-  <div class="slide-inner">
-    <span class="label label--cyan">Phase 2</span>
-    <h2>Verstehen — wir kartieren deinen Prozess</h2>
-    <p class="subtitle" style="margin-bottom:1.5rem">Bevor wir irgendetwas bauen, verstehen wir erst was du machst. Du zeichnest ab.</p>
+<!-- SLIDE 05 — Trennfolie: F&uuml;r Udo -->
+<section class="slide slide--divider" id="slide-5">
+  <div class="slide-inner" style="text-align:center;">
+    <span class="label label--cyan">Daily Operations</span>
+    <h2>F&uuml;r Udo.</h2>
+    <p class="divider-sub">Hier geht's um deinen Alltag &mdash; wenn das l&auml;uft.</p>
+  </div>
+  <span class="slide-num">05 / 13</span>
+</section>
 
+<!-- SLIDE 06 — F&uuml;r Udo: Was die Maschine f&uuml;r dich tut -->
+<section class="slide" id="slide-6">
+  <div class="bg-glow bg-glow--cyan" style="top:10%;right:-15%"></div>
+  <div class="slide-inner">
+    <span class="label label--cyan">F&uuml;r Udo</span>
+    <h2>Udo &mdash; du bekommst ein Werkzeug, das mitdenkt</h2>
     <div class="card-grid">
       <div class="card">
-        <span class="card-icon">🔁</span>
-        <h3>Was immer gleich ist</h3>
-        <p>Schritte die sich wiederholen und automatisiert werden können — ohne Qualitätsverlust.</p>
+        <span class="card-icon">&#x270D;&#xFE0F;</span>
+        <h3>Entwurf in Stunden</h3>
+        <p>Kein leeres Blatt mehr. Die Maschine liefert dir eine 80%-fertige Rohversion.</p>
       </div>
       <div class="card">
-        <span class="card-icon">🧠</span>
-        <h3>Was dein Urteil braucht</h3>
-        <p>Fachliche Bewertungen, Artbestimmung, Maßnahmenauswahl — das bleibt bei dir.</p>
+        <span class="card-icon">&#x1F50D;</span>
+        <h3>Vollst&auml;ndigkeits-Check</h3>
+        <p>Sie pr&uuml;ft automatisch ob alle Pflichtangaben da sind, bevor du einreichst.</p>
       </div>
       <div class="card">
-        <span class="card-icon">⏳</span>
-        <h3>Wo Zeit verloren geht</h3>
-        <p>Die Stellen im Prozess, wo die meisten Stunden draufgehen — ohne fachlichen Mehrwert.</p>
+        <span class="card-icon">&#x1F4DA;</span>
+        <h3>Wissen auf Abruf</h3>
+        <p>Sie kennt jede Beh&ouml;rde, jeden Projekttyp, jede Besonderheit &mdash; und gibt&rsquo;s dir direkt.</p>
       </div>
     </div>
-
-    <p style="margin-top:1.5rem;color:var(--text-muted);font-size:0.9rem;"><strong style="color:var(--text-bright);">Ergebnis:</strong> Ein Workflow-Dokument, das du vor der KI-Entwicklung abzeichnest. Nichts passiert ohne dein OK.</p>
   </div>
-  <span class="slide-num">05 / 09</span>
+  <span class="slide-num">06 / 13</span>
 </section>
 
-<!-- ═══════ SLIDE 06 — PHASE 3 & 4: AUSPROBIEREN & VERFEINERN ═══════ -->
-<section class="slide" id="slide-6">
-  <div class="bg-glow bg-glow--purple" style="top:30%;right:-15%"></div>
-  <div class="slide-inner">
-    <span class="label label--purple">Phase 3 & 4</span>
-    <h2>Ausprobieren & Verfeinern</h2>
-    <p class="subtitle" style="margin-bottom:0.5rem">Kein Theorie-Gerede. Ein echtes Gutachten als Testprojekt.</p>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h3>Echtes Projekt auswählen</h3>
-          <p>Wir nehmen ein reales Gutachten — kein Dummy, kein Fantasie-Szenario.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h3>KI erstellt Erstentwurf</h3>
-          <p>Basierend auf deinem Wissen und deinen Vorlagen erstellt die KI den ersten Entwurf.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h3>Du reviewst mit rotem Stift</h3>
-          <p>Was passt? Was ist falsch? Was fehlt? Du sagst es direkt — kein diplomatisches Drumherumreden nötig.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-content">
-          <h3>2–3 Iterationsrunden</h3>
-          <p>Wir verbessern, du prüfst nochmal. <strong style="color:var(--cyan);">Du sagst wann es gut genug ist — nicht wir.</strong></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="duration">⏱ 4–6 Wochen</div>
-  </div>
-  <span class="slide-num">06 / 09</span>
-</section>
-
-<!-- ═══════ SLIDE 07 — CHECKLISTE ═══════ -->
+<!-- SLIDE 07 — F&uuml;r Udo: Dein Tagesablauf -->
 <section class="slide" id="slide-7">
   <div class="bg-glow bg-glow--cyan" style="bottom:10%;left:-10%"></div>
   <div class="slide-inner">
-    <span class="label label--cyan">Checkliste</span>
-    <h2>Was wir von dir brauchen</h2>
-    <p class="subtitle" style="margin-bottom:1.75rem">Nicht alles auf einmal — nach und nach ist völlig okay.</p>
+    <span class="label label--cyan">Tagesablauf</span>
+    <h2>So sieht dein Tag aus &mdash; wenn die Maschine l&auml;uft</h2>
 
-    <div class="checklist-group">
-      <div class="checklist-group-title">Dokumente & Vorlagen</div>
-      <ul class="checklist">
-        <li><span class="checkbox"></span>3–5 fertige Artenschutzgutachten (verschiedene Typen: Windkraft, Hochbau, PV)</li>
-        <li><span class="checkbox"></span>Aktuelle Vorlagen/Templates die ihr nutzt</li>
-        <li><span class="checkbox"></span>Artgruppen-Checklisten nach Projekttyp</li>
-        <li><span class="checkbox"></span>Standardformulierungen die immer wieder vorkommen</li>
-      </ul>
+    <div class="workflow-flow">
+      <div class="flow-step">
+        <span class="flow-icon">&#x1F33F;</span>
+        <h3>Kartierung</h3>
+        <p>Feldarbeit wie gewohnt</p>
+      </div>
+      <div class="flow-step">
+        <span class="flow-icon">&#x1F4CB;</span>
+        <h3>Upload</h3>
+        <p>Daten + Notizen ins System</p>
+      </div>
+      <div class="flow-step">
+        <span class="flow-icon">&#x270D;&#xFE0F;</span>
+        <h3>KI-Entwurf</h3>
+        <p>Rohfassung in Stunden</p>
+      </div>
+      <div class="flow-step">
+        <span class="flow-icon">&#x1F441;&#xFE0F;</span>
+        <h3>Dein Review</h3>
+        <p>Du pr&uuml;fst, korrigierst, gibst frei</p>
+      </div>
+      <div class="flow-step">
+        <span class="flow-icon">&#x1F4E4;</span>
+        <h3>Einreichung</h3>
+        <p>Fertig an die Beh&ouml;rde</p>
+      </div>
     </div>
 
-    <div class="checklist-group">
-      <div class="checklist-group-title">Prozess & Workflow</div>
-      <ul class="checklist">
-        <li><span class="checkbox"></span>Monday-Board Zugang (oder Screenshot/Erklärung des aktuellen Workflows)</li>
-        <li><span class="checkbox"></span>1× strukturierter Call: "Walk me through ein Gutachten von Anfang bis Ende"</li>
-        <li><span class="checkbox"></span>Liste der Behörden mit denen ihr regelmäßig arbeitet + deren Besonderheiten</li>
-      </ul>
-    </div>
-
-    <div class="checklist-group">
-      <div class="checklist-group-title">Rechtliches & Fachliches</div>
-      <ul class="checklist">
-        <li><span class="checkbox"></span>Wichtigste Paragraphen/Leitfäden die ihr regelmäßig referenziert</li>
-        <li><span class="checkbox"></span>Häufigste Ablehnungsgründe bei Behörden (was muss besonders sorgfältig sein?)</li>
-        <li><span class="checkbox"></span>Regionale Besonderheiten (Bundesland-spezifische Anforderungen)</li>
-      </ul>
-    </div>
-
-    <div class="checklist-group">
-      <div class="checklist-group-title" style="color:var(--text-muted);">Optional aber hilfreich</div>
-      <ul class="checklist">
-        <li><span class="checkbox checkbox--optional"></span>Bereits vorhandene Aufzeichnungen/Links/Dokumente von Mario</li>
-        <li><span class="checkbox checkbox--optional"></span>Beispiel einer abgelehnten und überarbeiteten Version (zeigt das Qualitätsdelta)</li>
-      </ul>
-    </div>
+    <p style="margin-top:1.75rem;color:var(--text-muted);font-size:0.95rem;text-align:center;">Du machst die Arbeit, die nur du kannst. <strong style="color:var(--text-bright);">Den Rest &uuml;bernimmt sie.</strong></p>
   </div>
-  <span class="slide-num">07 / 09</span>
+  <span class="slide-num">07 / 13</span>
 </section>
 
-<!-- ═══════ SLIDE 08 — WAS DU NICHT TUN MUSST ═══════ -->
+<!-- SLIDE 08 — F&uuml;r Udo: Monday-Integration -->
 <section class="slide" id="slide-8">
+  <div class="bg-glow bg-glow--purple" style="top:10%;right:-10%"></div>
+  <div class="slide-inner">
+    <span class="label label--cyan">Monday.com</span>
+    <h2>Dein Board wei&szlig; immer wo&rsquo;s steht</h2>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">&#x1F4E5;</span>
+        <h3>Neuer Auftrag</h3>
+        <p>Task automatisch erstellt, Projekttyp erkannt.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">&#x1F916;</span>
+        <h3>KI arbeitet</h3>
+        <p>Status-Update wenn Entwurf fertig, Review-Task landet bei dir.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">&#x2705;</span>
+        <h3>Abschluss</h3>
+        <p>Fertig &rarr; archiviert, n&auml;chstes Projekt wartet.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-num">08 / 13</span>
+</section>
+
+<!-- SLIDE 09 — Aufgabenteilung: Maschine vs. Udo -->
+<section class="slide" id="slide-9">
+  <div class="bg-glow bg-glow--cyan" style="bottom:-10%;left:-5%"></div>
+  <div class="slide-inner">
+    <span class="label label--cyan">Aufgabenteilung</span>
+    <h2>Was die Maschine macht. Was du machst.</h2>
+
+    <div class="comparison">
+      <div class="comparison-col">
+        <h3>&#x1F916; Maschine</h3>
+        <ul>
+          <li>Standardabschnitte schreiben</li>
+          <li>Artenschutzrecht pr&uuml;fen</li>
+          <li>Vollst&auml;ndigkeit kontrollieren</li>
+          <li>Formatieren &amp; strukturieren</li>
+          <li>Beh&ouml;rdenprofile abrufen</li>
+        </ul>
+      </div>
+      <div class="comparison-col">
+        <h3>&#x2699;&#xFE0F; Udo</h3>
+        <ul>
+          <li>Gel&auml;ndearbeit</li>
+          <li>Beurteilung von Grenzf&auml;llen</li>
+          <li>Qualit&auml;tsfreigabe</li>
+          <li>Kundenkontakt</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bottom-stat">
+      <span class="highlight">80%</span> Routine &rarr; Maschine. <span class="highlight">20%</span> Expertise &rarr; du.
+    </div>
+  </div>
+  <span class="slide-num">09 / 13</span>
+</section>
+
+<!-- SLIDE 10 — Die Maschine lernt mit -->
+<section class="slide" id="slide-10">
+  <div class="bg-glow bg-glow--purple" style="top:-5%;left:-15%"></div>
+  <div class="slide-inner">
+    <span class="label label--cyan">Ged&auml;chtnis</span>
+    <h2>Sie wird besser. Mit jedem Projekt.</h2>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">&#x1F3DB;&#xFE0F;</span>
+        <h3>Beh&ouml;rden-Ged&auml;chtnis</h3>
+        <p>Pr&auml;ferenzen, Ablehnungsgr&uuml;nde, Kontakte &mdash; alles gespeichert.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">&#x1F4DA;</span>
+        <h3>Projekt-Bibliothek</h3>
+        <p>Alle Gutachten durchsuchbar, nie wieder von vorn anfangen.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">&#x1F504;</span>
+        <h3>Qualit&auml;tsspirale</h3>
+        <p>Jedes Review verbessert den n&auml;chsten Entwurf.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-num">10 / 13</span>
+</section>
+
+<!-- SLIDE 11 — Kapazit&auml;tsgewinn -->
+<section class="slide" id="slide-11">
+  <div class="bg-glow bg-glow--cyan" style="top:20%;right:-10%"></div>
+  <div class="bg-glow bg-glow--purple" style="bottom:-15%;left:10%"></div>
+  <div class="slide-inner">
+    <span class="label label--purple">Wachstum</span>
+    <h2>Selbes Team. Mehr Projekte.</h2>
+
+    <div class="stat-grid">
+      <div class="stat-block">
+        <div class="stat-number">3&times;</div>
+        <div class="stat-label">mehr Kapazit&auml;t</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number">70%</div>
+        <div class="stat-label">weniger Schreibaufwand</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number">0</div>
+        <div class="stat-label">&Uuml;berstunden f&uuml;r Standarddokumente</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Kontrolle bleibt beim Team</div>
+      </div>
+    </div>
+  </div>
+  <span class="slide-num">11 / 13</span>
+</section>
+
+<!-- SLIDE 12 — Was ihr beide NICHT tun m&uuml;sst -->
+<section class="slide" id="slide-12">
   <div class="bg-glow bg-glow--purple" style="top:-5%;right:10%"></div>
   <div class="slide-inner">
-    <span class="label label--purple">Keine Sorge</span>
-    <h2>Was du <span class="highlight-purple">nicht</span> tun musst</h2>
-    <p class="subtitle" style="margin-bottom:0.5rem">Kurz gesagt: Du musst dich nicht verbiegen. Wir passen uns an.</p>
+    <span class="label label--purple">Keine Sorgen</span>
+    <h2>Das m&uuml;sst ihr nicht.</h2>
 
     <ul class="reassurance-list">
       <li class="negative">
-        <span class="r-icon">❌</span>
-        <span>Du musst kein KI-Experte werden — das ist unser Job.</span>
+        <span class="r-icon">&#x274C;</span>
+        <span>KI-Experten werden</span>
       </li>
       <li class="negative">
-        <span class="r-icon">❌</span>
-        <span>Wir ersetzen nicht dein Urteil — wir verlängern deinen Arm.</span>
+        <span class="r-icon">&#x274C;</span>
+        <span>Perfektes Datenmaterial liefern</span>
       </li>
       <li class="negative">
-        <span class="r-icon">❌</span>
-        <span>Kein perfektes Datenmaterial nötig — wir arbeiten mit dem was da ist.</span>
+        <span class="r-icon">&#x274C;</span>
+        <span>Bestehende Workflows komplett umbauen</span>
       </li>
       <li class="negative">
-        <span class="r-icon">❌</span>
-        <span>Kein Zeitdruck — du gibst das Tempo vor.</span>
+        <span class="r-icon">&#x274C;</span>
+        <span>Euer Urteil abgeben</span>
       </li>
       <li class="positive">
-        <span class="r-icon">✅</span>
-        <span>Deine Expertise bleibt wertvoll — sie wird nur skalierbar.</span>
+        <span class="r-icon">&#x2705;</span>
+        <span>Einfach mitbauen &mdash; und dann nutzen.</span>
       </li>
     </ul>
   </div>
-  <span class="slide-num">08 / 09</span>
+  <span class="slide-num">12 / 13</span>
 </section>
 
-<!-- ═══════ SLIDE 09 — CTA ═══════ -->
-<section class="slide" id="slide-9">
+<!-- SLIDE 13 — CTA -->
+<section class="slide" id="slide-13">
   <div class="bg-glow bg-glow--purple" style="top:-10%;right:-5%"></div>
   <div class="bg-glow bg-glow--cyan" style="bottom:-10%;left:10%"></div>
   <div class="slide-inner" style="text-align:center;">
-    <span class="label label--cyan">Nächster Schritt</span>
-    <h2 style="max-width:600px;margin:0 auto;">Lass uns das erste Gespräch vereinbaren</h2>
-    <p class="subtitle" style="margin:1rem auto 0;text-align:center;max-width:500px;">Kein Pitch, kein Verkaufsgespräch. Einfach du und Mario — du erzählst, er hört zu. Der Rest ergibt sich.</p>
+    <span class="label label--cyan">N&auml;chster Schritt</span>
+    <h2 style="max-width:600px;margin:0 auto;">Lass uns anfangen.</h2>
+    <p class="subtitle" style="margin:1rem auto 0;text-align:center;max-width:520px;">Mario hat schon Material von euch. Der erste Call mit Yvonne reicht &mdash; und Udo ist ab Tag&nbsp;1 dabei.</p>
     <div class="cta-wrap" style="margin-top:1.75rem;">
-      <a href="mailto:mario@machinemachine.ai?subject=Grünstifter%20KI%20—%20Lass%20uns%20reden" class="cta">Termin mit Mario →</a>
-      <a href="index.html" class="cta cta-secondary">Zurück zur Übersicht ↗</a>
+      <a href="mailto:mario@machinemachine.ai?subject=Gr%C3%BCnstifter%20KI%20%E2%80%94%20Lass%20uns%20anfangen" class="cta">Termin mit Mario &rarr;</a>
+      <a href="index.html" class="cta cta-secondary">Zur&uuml;ck zur &Uuml;bersicht &nearr;</a>
     </div>
-    <p style="margin-top:2.5rem;font-size:0.8rem;color:var(--text-muted);">Kein Druck. Kein Zeitlimit. Wir machen das in deinem Tempo.</p>
+    <p style="margin-top:2.5rem;font-size:0.8rem;color:var(--text-muted);">Kein Druck. Kein Zeitlimit. Wir machen das in eurem Tempo.</p>
   </div>
-  <span class="slide-num">09 / 09</span>
+  <span class="slide-num">13 / 13</span>
 </section>
 
-<!-- ═══════ SCRIPT ═══════ -->
+<!-- SCRIPT -->
 <script>
 (function() {
   const slides = document.querySelectorAll('.slide');
