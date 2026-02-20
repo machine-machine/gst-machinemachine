@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yvonne — Dein Wissen. Die KI-Basis. | Machine.Machine × Grünstifter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #0F1729;
+    --navy-light: #1A2340;
+    --navy-lighter: #243055;
+    --purple: #7C3AED;
+    --purple-light: #9F67FF;
+    --cyan: #00D9FF;
+    --cyan-dim: rgba(0, 217, 255, 0.15);
+    --purple-dim: rgba(124, 58, 237, 0.15);
+    --text: #E2E8F0;
+    --text-muted: #94A3B8;
+    --text-bright: #F8FAFC;
+    --card-bg: rgba(26, 35, 64, 0.7);
+    --card-border: rgba(124, 58, 237, 0.2);
+    --gradient-accent: linear-gradient(180deg, var(--purple), var(--cyan));
+    --gradient-btn: linear-gradient(135deg, var(--purple), #9F67FF);
+  }
+
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── SLIDE SYSTEM ─── */
+  .slide {
+    min-height: 100vh;
+    min-height: 100dvh;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide-inner {
+    max-width: 960px;
+    width: 100%;
+  }
+
+  .slide-num {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 2rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--text-bright);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 4vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--text-bright);
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: var(--text-muted);
+    max-width: 600px;
+    line-height: 1.5;
+  }
+
+  .highlight {
+    color: var(--cyan);
+  }
+
+  .highlight-purple {
+    color: var(--purple-light);
+  }
+
+  /* ─── LABEL CHIPS ─── */
+  .label {
+    display: inline-block;
+    padding: 0.3rem 0.85rem;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+
+  .label--purple {
+    background: var(--purple-dim);
+    color: var(--purple-light);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+  }
+
+  .label--cyan {
+    background: var(--cyan-dim);
+    color: var(--cyan);
+    border: 1px solid rgba(0, 217, 255, 0.25);
+  }
+
+  /* ─── CARDS ─── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border-left: 4px solid transparent;
+    border-image: var(--gradient-accent) 1;
+    border-image-slice: 1;
+    border-top: 1px solid var(--card-border);
+    border-right: 1px solid var(--card-border);
+    border-bottom: 1px solid var(--card-border);
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+  }
+
+  .card-icon {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  /* ─── WORKFLOW STEPS ─── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: var(--gradient-btn);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: white;
+  }
+
+  .step-icon {
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: var(--gradient-btn);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  .step-content h3 {
+    margin-bottom: 0.25rem;
+  }
+
+  .step-content p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  /* ─── FEATURE LIST ─── */
+  .feature-list {
+    list-style: none;
+    margin-top: 1.25rem;
+  }
+
+  .feature-list li {
+    padding: 0.65rem 0;
+    border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .feature-list li:last-child {
+    border-bottom: none;
+  }
+
+  .feature-list .icon {
+    flex-shrink: 0;
+    color: var(--cyan);
+    font-size: 1.1rem;
+    margin-top: 0.1rem;
+  }
+
+  /* ─── CHECKLIST ─── */
+  .checklist-group {
+    margin-bottom: 1.75rem;
+  }
+
+  .checklist-group-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--purple-light);
+    margin-bottom: 0.75rem;
+    padding-left: 0.25rem;
+  }
+
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.85rem 1.15rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    backdrop-filter: blur(10px);
+  }
+
+  .checkbox {
+    flex-shrink: 0;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid var(--purple);
+    border-radius: 4px;
+    margin-top: 0.1rem;
+    background: transparent;
+    position: relative;
+  }
+
+  .checkbox--optional {
+    border-color: var(--text-muted);
+    border-style: dashed;
+  }
+
+  /* ─── REASSURANCE LIST ─── */
+  .reassurance-list {
+    list-style: none;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .reassurance-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  .reassurance-list li .r-icon {
+    flex-shrink: 0;
+    font-size: 1.15rem;
+    margin-top: 0.15rem;
+  }
+
+  .reassurance-list li.negative {
+    color: var(--text-muted);
+  }
+
+  .reassurance-list li.positive {
+    color: var(--cyan);
+    font-weight: 600;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 217, 255, 0.15);
+  }
+
+  /* ─── CTA BUTTON ─── */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 2rem;
+    background: var(--gradient-btn);
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+  }
+
+  .cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(124, 58, 237, 0.55);
+  }
+
+  .cta-secondary {
+    background: transparent;
+    border: 2px solid var(--purple);
+    box-shadow: none;
+    margin-left: 0.75rem;
+  }
+
+  .cta-secondary:hover {
+    background: var(--purple-dim);
+    box-shadow: none;
+  }
+
+  /* ─── HERO ─── */
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 100px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .hero-badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cyan);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    max-width: 700px;
+  }
+
+  .hero h1 .gradient-text {
+    background: linear-gradient(135deg, var(--cyan), var(--purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ─── BACK LINK ─── */
+  .back-link {
+    position: fixed;
+    top: 1.25rem;
+    left: 1.5rem;
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .back-link:hover {
+    color: var(--cyan);
+    border-color: rgba(0, 217, 255, 0.3);
+  }
+
+  /* ─── DURATION TAG ─── */
+  .duration {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.7rem;
+    background: var(--cyan-dim);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--cyan);
+    margin-top: 1rem;
+  }
+
+  /* ─── BACKGROUND DECORATION ─── */
+  .bg-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bg-glow--purple {
+    background: rgba(124, 58, 237, 0.12);
+    width: 500px;
+    height: 500px;
+  }
+
+  .bg-glow--cyan {
+    background: rgba(0, 217, 255, 0.08);
+    width: 400px;
+    height: 400px;
+  }
+
+  /* ─── NAV DOTS ─── */
+  .nav-dots {
+    position: fixed;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 100;
+  }
+
+  .nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--navy-lighter);
+    border: 1px solid var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+  }
+
+  .nav-dot.active {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    box-shadow: 0 0 8px rgba(0, 217, 255, 0.5);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .slide { padding: 2rem 1.25rem; }
+    .card-grid { grid-template-columns: 1fr; }
+    .nav-dots { display: none; }
+    .slide-num { display: none; }
+    .cta-secondary { margin-left: 0; margin-top: 0.5rem; }
+    .cta-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+    .back-link { top: 0.75rem; left: 0.75rem; }
+    .checklist li { padding: 0.75rem 0.85rem; font-size: 0.85rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ BACK LINK ═══════ -->
+<a href="index.html" class="back-link">← Zurück zur Übersicht</a>
+
+<!-- ═══════ NAV DOTS ═══════ -->
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- ═══════ SLIDE 01 — HERO ═══════ -->
+<section class="slide hero" id="slide-1">
+  <div class="bg-glow bg-glow--purple" style="top:-20%;right:-10%"></div>
+  <div class="bg-glow bg-glow--cyan" style="bottom:-15%;left:-5%"></div>
+  <div class="slide-inner">
+    <div class="hero-badge"><span class="dot"></span> Deine Reise</div>
+    <h1>Dein Wissen.<br><span class="gradient-text">Die KI-Basis.</span></h1>
+    <p class="subtitle">Yvonne — du bist der Schlüssel, damit das hier funktioniert. Nicht die Technik, nicht die Algorithmen. Dein Kopf, deine Erfahrung, dein Gespür für Qualität.</p>
+    <a href="#slide-2" class="cta">Was das bedeutet ↓</a>
+  </div>
+  <span class="slide-num">01 / 09</span>
+</section>
+
+<!-- ═══════ SLIDE 02 — WARUM DU? ═══════ -->
+<section class="slide" id="slide-2">
+  <div class="bg-glow bg-glow--purple" style="top:10%;left:-15%"></div>
+  <div class="slide-inner">
+    <span class="label label--purple">Warum du?</span>
+    <h2>Dein Wissen kann man nicht googlen</h2>
+    <p class="subtitle" style="margin-bottom:0.5rem">20+ Jahre Artenschutz-Expertise, Behördenbeziehungen, das Gefühl dafür was ein gutes Gutachten von einem abgelehnten unterscheidet — das macht diese KI anders als generische Tools.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">🧭</span>
+        <h3>Dein Prozesswissen</h3>
+        <p>Wie ein Gutachten wirklich entsteht — nicht wie es im Lehrbuch steht. Die Abkürzungen, die Reihenfolge, die Kniffe.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">✍️</span>
+        <h3>Deine Formulierungen</h3>
+        <p>Die Sätze die bei der UNB durchgehen, die Textbausteine die funktionieren, der Ton der akzeptiert wird.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚖️</span>
+        <h3>Deine Qualitätsstandards</h3>
+        <p>Wann ist ein Gutachten gut genug? Das weiß nur jemand, der hunderte davon geschrieben und durchgebracht hat.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-num">02 / 09</span>
+</section>
+
+<!-- ═══════ SLIDE 03 — DIE REISE AUF EINEN BLICK ═══════ -->
+<section class="slide" id="slide-3">
+  <div class="bg-glow bg-glow--cyan" style="top:20%;right:-10%"></div>
+  <div class="slide-inner">
+    <span class="label label--cyan">Überblick</span>
+    <h2>Die Reise auf einen Blick</h2>
+    <p class="subtitle">Fünf Phasen — und du gibst das Tempo vor.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-icon">🎙️</div>
+        <div class="step-content">
+          <h3>1. Zuhören</h3>
+          <p>Wir hören zu: Calls, Aufzeichnungen, Dokumente. Du erzählst, wir lernen.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-icon">🗺️</div>
+        <div class="step-content">
+          <h3>2. Verstehen</h3>
+          <p>Wir kartieren deinen Workflow — wie eine saP, nur für Prozesse.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-icon">🧪</div>
+        <div class="step-content">
+          <h3>3. Ausprobieren</h3>
+          <p>Erstes echtes Gutachten mit KI-Unterstützung. Kein Dummy — ein reales Projekt.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-icon">🔄</div>
+        <div class="step-content">
+          <h3>4. Verfeinern</h3>
+          <p>Du reviewst, wir verbessern — mehrere Runden, bis die Qualität stimmt.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-icon">🚀</div>
+        <div class="step-content">
+          <h3>5. Loslegen</h3>
+          <p>Das Team übernimmt, du bleibst Qualitätswächterin. Dein Stempel drauf.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="slide-num">03 / 09</span>
+</section>
+
+<!-- ═══════ SLIDE 04 — PHASE 1: ZUHÖREN ═══════ -->
+<section class="slide" id="slide-4">
+  <div class="bg-glow bg-glow--purple" style="bottom:-10%;right:-5%"></div>
+  <div class="slide-inner">
+    <span class="label label--purple">Phase 1</span>
+    <h2>Zuhören — wir lernen von dir</h2>
+    <p class="subtitle" style="margin-bottom:0.5rem">Du musst nichts vorbereiten. Einfach erzählen und zeigen.</p>
+
+    <ul class="feature-list">
+      <li>
+        <span class="icon">🎙️</span>
+        <div>Mario führt strukturierte Calls mit dir durch (1–2 Stunden, aufgezeichnet) — du erklärst, er fragt nach.</div>
+      </li>
+      <li>
+        <span class="icon">📄</span>
+        <div>Du zeigst ein echtes Gutachten und erklärst es Schritt für Schritt — warum steht was wo, was ist Pflicht, was ist Kür.</div>
+      </li>
+      <li>
+        <span class="icon">📋</span>
+        <div>Wir sammeln: Vorlagen, Checklisten, Behörden-Besonderheiten, Standardformulierungen, die sich bewährt haben.</div>
+      </li>
+      <li>
+        <span class="icon">📊</span>
+        <div>Monday-Board: Wir schauen gemeinsam wie Tasks fließen — wo sind Engpässe, was wiederholt sich.</div>
+      </li>
+    </ul>
+
+    <div class="duration">⏱ 2–3 Wochen · Deine Zeit: ca. 4 Stunden insgesamt</div>
+  </div>
+  <span class="slide-num">04 / 09</span>
+</section>
+
+<!-- ═══════ SLIDE 05 — PHASE 2: VERSTEHEN ═══════ -->
+<section class="slide" id="slide-5">
+  <div class="bg-glow bg-glow--cyan" style="top:-10%;left:-10%"></div>
+  <div class="slide-inner">
+    <span class="label label--cyan">Phase 2</span>
+    <h2>Verstehen — wir kartieren deinen Prozess</h2>
+    <p class="subtitle" style="margin-bottom:1.5rem">Bevor wir irgendetwas bauen, verstehen wir erst was du machst. Du zeichnest ab.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">🔁</span>
+        <h3>Was immer gleich ist</h3>
+        <p>Schritte die sich wiederholen und automatisiert werden können — ohne Qualitätsverlust.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🧠</span>
+        <h3>Was dein Urteil braucht</h3>
+        <p>Fachliche Bewertungen, Artbestimmung, Maßnahmenauswahl — das bleibt bei dir.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">⏳</span>
+        <h3>Wo Zeit verloren geht</h3>
+        <p>Die Stellen im Prozess, wo die meisten Stunden draufgehen — ohne fachlichen Mehrwert.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:1.5rem;color:var(--text-muted);font-size:0.9rem;"><strong style="color:var(--text-bright);">Ergebnis:</strong> Ein Workflow-Dokument, das du vor der KI-Entwicklung abzeichnest. Nichts passiert ohne dein OK.</p>
+  </div>
+  <span class="slide-num">05 / 09</span>
+</section>
+
+<!-- ═══════ SLIDE 06 — PHASE 3 & 4: AUSPROBIEREN & VERFEINERN ═══════ -->
+<section class="slide" id="slide-6">
+  <div class="bg-glow bg-glow--purple" style="top:30%;right:-15%"></div>
+  <div class="slide-inner">
+    <span class="label label--purple">Phase 3 & 4</span>
+    <h2>Ausprobieren & Verfeinern</h2>
+    <p class="subtitle" style="margin-bottom:0.5rem">Kein Theorie-Gerede. Ein echtes Gutachten als Testprojekt.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Echtes Projekt auswählen</h3>
+          <p>Wir nehmen ein reales Gutachten — kein Dummy, kein Fantasie-Szenario.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>KI erstellt Erstentwurf</h3>
+          <p>Basierend auf deinem Wissen und deinen Vorlagen erstellt die KI den ersten Entwurf.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Du reviewst mit rotem Stift</h3>
+          <p>Was passt? Was ist falsch? Was fehlt? Du sagst es direkt — kein diplomatisches Drumherumreden nötig.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>2–3 Iterationsrunden</h3>
+          <p>Wir verbessern, du prüfst nochmal. <strong style="color:var(--cyan);">Du sagst wann es gut genug ist — nicht wir.</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="duration">⏱ 4–6 Wochen</div>
+  </div>
+  <span class="slide-num">06 / 09</span>
+</section>
+
+<!-- ═══════ SLIDE 07 — CHECKLISTE ═══════ -->
+<section class="slide" id="slide-7">
+  <div class="bg-glow bg-glow--cyan" style="bottom:10%;left:-10%"></div>
+  <div class="slide-inner">
+    <span class="label label--cyan">Checkliste</span>
+    <h2>Was wir von dir brauchen</h2>
+    <p class="subtitle" style="margin-bottom:1.75rem">Nicht alles auf einmal — nach und nach ist völlig okay.</p>
+
+    <div class="checklist-group">
+      <div class="checklist-group-title">Dokumente & Vorlagen</div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>3–5 fertige Artenschutzgutachten (verschiedene Typen: Windkraft, Hochbau, PV)</li>
+        <li><span class="checkbox"></span>Aktuelle Vorlagen/Templates die ihr nutzt</li>
+        <li><span class="checkbox"></span>Artgruppen-Checklisten nach Projekttyp</li>
+        <li><span class="checkbox"></span>Standardformulierungen die immer wieder vorkommen</li>
+      </ul>
+    </div>
+
+    <div class="checklist-group">
+      <div class="checklist-group-title">Prozess & Workflow</div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Monday-Board Zugang (oder Screenshot/Erklärung des aktuellen Workflows)</li>
+        <li><span class="checkbox"></span>1× strukturierter Call: "Walk me through ein Gutachten von Anfang bis Ende"</li>
+        <li><span class="checkbox"></span>Liste der Behörden mit denen ihr regelmäßig arbeitet + deren Besonderheiten</li>
+      </ul>
+    </div>
+
+    <div class="checklist-group">
+      <div class="checklist-group-title">Rechtliches & Fachliches</div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Wichtigste Paragraphen/Leitfäden die ihr regelmäßig referenziert</li>
+        <li><span class="checkbox"></span>Häufigste Ablehnungsgründe bei Behörden (was muss besonders sorgfältig sein?)</li>
+        <li><span class="checkbox"></span>Regionale Besonderheiten (Bundesland-spezifische Anforderungen)</li>
+      </ul>
+    </div>
+
+    <div class="checklist-group">
+      <div class="checklist-group-title" style="color:var(--text-muted);">Optional aber hilfreich</div>
+      <ul class="checklist">
+        <li><span class="checkbox checkbox--optional"></span>Bereits vorhandene Aufzeichnungen/Links/Dokumente von Mario</li>
+        <li><span class="checkbox checkbox--optional"></span>Beispiel einer abgelehnten und überarbeiteten Version (zeigt das Qualitätsdelta)</li>
+      </ul>
+    </div>
+  </div>
+  <span class="slide-num">07 / 09</span>
+</section>
+
+<!-- ═══════ SLIDE 08 — WAS DU NICHT TUN MUSST ═══════ -->
+<section class="slide" id="slide-8">
+  <div class="bg-glow bg-glow--purple" style="top:-5%;right:10%"></div>
+  <div class="slide-inner">
+    <span class="label label--purple">Keine Sorge</span>
+    <h2>Was du <span class="highlight-purple">nicht</span> tun musst</h2>
+    <p class="subtitle" style="margin-bottom:0.5rem">Kurz gesagt: Du musst dich nicht verbiegen. Wir passen uns an.</p>
+
+    <ul class="reassurance-list">
+      <li class="negative">
+        <span class="r-icon">❌</span>
+        <span>Du musst kein KI-Experte werden — das ist unser Job.</span>
+      </li>
+      <li class="negative">
+        <span class="r-icon">❌</span>
+        <span>Wir ersetzen nicht dein Urteil — wir verlängern deinen Arm.</span>
+      </li>
+      <li class="negative">
+        <span class="r-icon">❌</span>
+        <span>Kein perfektes Datenmaterial nötig — wir arbeiten mit dem was da ist.</span>
+      </li>
+      <li class="negative">
+        <span class="r-icon">❌</span>
+        <span>Kein Zeitdruck — du gibst das Tempo vor.</span>
+      </li>
+      <li class="positive">
+        <span class="r-icon">✅</span>
+        <span>Deine Expertise bleibt wertvoll — sie wird nur skalierbar.</span>
+      </li>
+    </ul>
+  </div>
+  <span class="slide-num">08 / 09</span>
+</section>
+
+<!-- ═══════ SLIDE 09 — CTA ═══════ -->
+<section class="slide" id="slide-9">
+  <div class="bg-glow bg-glow--purple" style="top:-10%;right:-5%"></div>
+  <div class="bg-glow bg-glow--cyan" style="bottom:-10%;left:10%"></div>
+  <div class="slide-inner" style="text-align:center;">
+    <span class="label label--cyan">Nächster Schritt</span>
+    <h2 style="max-width:600px;margin:0 auto;">Lass uns das erste Gespräch vereinbaren</h2>
+    <p class="subtitle" style="margin:1rem auto 0;text-align:center;max-width:500px;">Kein Pitch, kein Verkaufsgespräch. Einfach du und Mario — du erzählst, er hört zu. Der Rest ergibt sich.</p>
+    <div class="cta-wrap" style="margin-top:1.75rem;">
+      <a href="mailto:mario@machinemachine.ai?subject=Grünstifter%20KI%20—%20Lass%20uns%20reden" class="cta">Termin mit Mario →</a>
+      <a href="index.html" class="cta cta-secondary">Zurück zur Übersicht ↗</a>
+    </div>
+    <p style="margin-top:2.5rem;font-size:0.8rem;color:var(--text-muted);">Kein Druck. Kein Zeitlimit. Wir machen das in deinem Tempo.</p>
+  </div>
+  <span class="slide-num">09 / 09</span>
+</section>
+
+<!-- ═══════ SCRIPT ═══════ -->
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const navDots = document.getElementById('navDots');
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+    dot.addEventListener('click', () => {
+      slides[i].scrollIntoView({ behavior: 'smooth' });
+    });
+    navDots.appendChild(dot);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const index = Array.from(slides).indexOf(entry.target);
+        document.querySelectorAll('.nav-dot').forEach((d, i) => {
+          d.classList.toggle('active', i === index);
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+
+  slides.forEach(slide => observer.observe(slide));
+
+  document.addEventListener('keydown', (e) => {
+    const dots = document.querySelectorAll('.nav-dot');
+    const current = Array.from(dots).findIndex(d => d.classList.contains('active'));
+    if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault();
+      if (current < slides.length - 1) slides[current + 1].scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      e.preventDefault();
+      if (current > 0) slides[current - 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+})();
+</script>
+</body>
+</html>
